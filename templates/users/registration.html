@@ -1,0 +1,32 @@
+{% extends 'users/base.html' %}
+
+{% block form %}
+  <form class="form" action="#">
+    <h2 class="form__title">Sign Up</h2>
+    <hr>
+    <div class="input-group">
+      <label for="username">Username:</label>
+      <input id="username" class="form__input" placeholder="Enter username" type="text">
+      <p class="form__text">Your username must be at least 4 characters up to a maximum of 32.</p>
+    </div>
+    <div class="input-group">
+      <label for="email">Email:</label>
+      <input id="email" class="form__input" placeholder="Enter email" type="text">
+    </div>
+    <div class="input-group">
+      <label for="password">Email:</label>
+      <input id="password" class="form__input" placeholder="Enter password" type="password">
+      <p class="form__text">
+        Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces or
+        special characters.
+      </p>
+    </div>
+    <hr>
+    <div class="form-submit-wrp">
+      <button class="btn btn--form">Sign Up</button>
+      <p>
+        Already registered? <a href="#" class="form-link form-link--active">Login to your account</a>
+      </p>
+    </div>
+  </form>
+{% endblock %}
