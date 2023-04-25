@@ -4,26 +4,22 @@
 {% block form %}
   <form class="form" action="{{ url_for('login') }}" method="post">
     <h2 class="form__title">Log In</h2>
-    <hr>
+    <hr class="divider">
     <div class="input-group">
       <label for="username-input">Username:</label>
-      <input id="username-input" class="form__input" placeholder="Enter username" type="text">
+      <input id="username-input" class="input input--auth" placeholder="Enter username" type="text">
       <p class="form__text">Note that the username may be case-sensitive.</p>
     </div>
     <div class="input-group">
       <label for="password-input">Password:</label>
-      <input id="password-input" class="form__input" placeholder="Enter password" type="password">
-      <p class="form__text">
-        Your password must be 8-20 characters long, contain letters and numbers, and must not contain
-        spaces or special characters.
-      </p>
+      <input id="password-input" class="input input--auth" placeholder="Enter password" type="password">
     </div>
     <div class="input-group d-flex">
       <input class="form__checkbox" id="remember" type="checkbox">
       <label for="remember">Remember me</label>
       <a class="form-link form-link--secondary ml-auto" href="#">Forgot password ?</a>
     </div>
-    <hr>
+    <hr class="divider">
     <div class="form-submit-wrp">
       <button class="btn btn--form" type="submit">Log In</button>
       <p>
