@@ -4,6 +4,7 @@
     --secondary-interactive: #676767;
     --active: #FF5644;
     --active-interactive: #ff4533;
+    --bg-main: #F8F9FB;
     --bg-secondary: #D9D9D9;
 }
 
@@ -12,6 +13,7 @@ body {
     font-weight: 400;
     font-size: 20px;
     color: var(--main);
+    background-color: var(--bg-main);
 }
 
 .d-flex {
@@ -90,6 +92,11 @@ body {
     width: 200px;
 }
 
+.header__text {
+    text-align: center;
+    line-height: 30px;
+}
+
 .header__link {
     color: var(--main);
     text-decoration: none;
@@ -101,7 +108,7 @@ body {
     font-size: 22px;
 }
 
-.header__item::before {
+.header__item::after {
     opacity: 0;
     position: absolute;
     content: '';
@@ -112,8 +119,8 @@ body {
     transition-duration: 0.1s;
 }
 
-.header__item:hover.header__item::before,
-.header__item--active.header__item::before {
+.header__item:hover.header__item::after,
+.header__item--active.header__item::after {
     opacity: 1;
 }
 
@@ -175,9 +182,10 @@ body {
 }
 
 .cards-wrp {
-    display: flex;
-    justify-content: space-between;
-    width: 1340px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 70px;
+    max-width: 1340px;
 }
 
 .card {
@@ -187,19 +195,18 @@ body {
     height: 680px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     transition: 0.3s;
+    background-color: #FFF;
 }
 
-.card:hover,
-.card:active,
-.card:focus {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+.card:hover {
+    scale: 1.025;
+    box-shadow: 0 16px 32px 0 rgba(0, 0, 0, 0.2);
 }
 
 .card-img-wrp {
     width: 400px;
     height: 350px;
-    border-top-right-radius: inherit;
-    border-top-left-radius: inherit;
+    border-radius: inherit;
     display: flex;
     justify-content: center;
     align-items: center;

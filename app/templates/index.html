@@ -2,30 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="/static/css/reset.css" type="text/css">
-  <link rel="stylesheet" href="/static/css/style.css" type="text/css">
-  <title>Title</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}" type="text/css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
+  <title>Shortify</title>
 </head>
 <body>
 <header class="header">
-  <a class="header__link mr-auto" href="#">
+  <a class="header__link mr-auto" href="{{ url_for('users.login') }}">
     <div class="header__item">
-      <span>Log In</span>
+      <span class="header__text">Log In</span>
     </div>
   </a>
   <a class="header__link" href="#">
     <div class="header__item header__item--active">
-      <span>Shortify</span>
+      <span class="header__text">Shortify</span>
     </div>
   </a>
   <a class="header__link" href="#">
     <div class="header__item">
-      <span>Profile</span>
+      <span class="header__text">YouTube Downloader</span>
     </div>
   </a>
-  <a class="header__link ml-auto" href="#">
+  <a class="header__link" href="#">
     <div class="header__item">
-      <span>Sign Up</span>
+      <span class="header__text">Profile</span>
+    </div>
+  </a>
+  <a class="header__link ml-auto" href="{{ url_for('users.registration') }}">
+    <div class="header__item">
+      <span class="header__text">Sign Up</span>
     </div>
   </a>
 </header>
@@ -33,11 +38,16 @@
 <section class="shortener">
   <div class="shortener-wrp">
     <h1 class="shortener__title">URL Shortener</h1>
-    <label class="shortener__desc" for="shortener">Shorten and use shortened urls absolutely free.</label>
-    <div class="input-group d-flex">
-      <input id="shortener" class="input" placeholder="Paste the url you want to shorten here..." type="url">
-      <button class="btn btn--shortener">Shorten</button>
-    </div>
+    <label class="shortener__desc" for="{{ form.original_url.id }}">Shorten and use shortened urls absolutely free.</label>
+    <form action="{{ url_for('main.index') }}" method="post">
+
+      {{ form.hidden_tag() }}
+
+      <div class="input-group d-flex">
+        {{ form.original_url() }}
+        {{ form.submit }}
+      </div>
+    </form>
   </div>
 </section>
 <section class="about">
@@ -53,7 +63,7 @@
   <div class="cards-wrp">
     <div class="card">
       <div class="card-img-wrp">
-        <img src="/static/img/clock.svg" alt="clock">
+        <img src="{{ url_for('static', filename='img/clock.svg') }}" alt="clock">
       </div>
       <div class="card-text-wrp">
         <h4 class="card__title">Fast and easy to use</h4>
@@ -65,7 +75,7 @@
     </div>
     <div class="card">
       <div class="card-img-wrp">
-        <img src="/static/img/limits.svg" alt="clock">
+        <img src="{{ url_for('static', filename='img/limits.svg') }}" alt="clock">
       </div>
       <div class="card-text-wrp">
         <h4 class="card__title">Without restriction</h4>
@@ -74,7 +84,7 @@
     </div>
     <div class="card">
       <div class="card-img-wrp">
-        <img src="/static/img/safe.svg" alt="clock">
+        <img src="{{ url_for('static', filename='img/safe.svg') }}" alt="clock">
       </div>
       <div class="card-text-wrp">
         <h4 class="card__title">Fast and easy to use</h4>

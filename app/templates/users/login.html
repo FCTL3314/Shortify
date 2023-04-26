@@ -2,7 +2,7 @@
 
 
 {% block form %}
-  <form class="form" action="{{ url_for('login') }}" method="post">
+  <form class="form" action="{{ url_for('users.login') }}" method="post">
     <h2 class="form__title">Log In</h2>
     <hr class="divider">
     <div class="input-group">
@@ -24,7 +24,7 @@
       <button class="btn btn--form" type="submit">Log In</button>
       <p>
         Not registered ?
-        <a class="form-link form-link--active" href="{{ url_for('registration') }}">
+        <a class="form-link form-link--active" href="{{ url_for('users.registration') }}">
           Create your account
         </a>
       </p>

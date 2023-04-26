@@ -1,7 +1,7 @@
 {% extends 'users/base.html' %}
 
 {% block form %}
-  <form class="form" action="{{ url_for('registration') }}" method="post">
+  <form class="form" action="{{ url_for('users.registration') }}" method="post">
     <h2 class="form__title">Sign Up</h2>
     <hr class="divider">
     <div class="input-group">
@@ -26,7 +26,7 @@
       <button class="btn btn--form">Sign Up</button>
       <p>
         Already registered?
-        <a href="{{ url_for('login') }}" class="form-link form-link--active">
+        <a href="{{ url_for('users.login') }}" class="form-link form-link--active">
           Login to your account
         </a>
       </p>
