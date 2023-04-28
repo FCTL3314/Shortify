@@ -1,10 +1,35 @@
-from flask import render_template
+from flask import flash, redirect, render_template, request, url_for
+from flask_login import current_user
 
+from app.extensions import db
 from app.main import bp
 from app.main.forms import ShortenUrlForm
+from app.main.models import Url
 
 
 @bp.route('/', methods=['GET', 'POST'])
 def index():
     form = ShortenUrlForm()
-    return render_template('index.html', form=form)
+    if request.method == 'POST':
+        original_url = form.original_url.data
+
+        url = Url(original_url=original_url)
+        db.session.add(url)
+        db.session.commit()
+
+        final_url = url_for('main.redirect_to_url', short_url=url.short_url, _external=True)
+
+        flash('Shortened link successfully generated!', 'success')
+        return render_template('index.html', form=form, short_url=final_url, user=current_user)
+
+    return render_template('index.html', form=form, user=current_user)
+
+
+@bp.route('/<short_url>')
+def redirect_to_url(short_url):
+    url = Url.query.filter_by(short_url=short_url).first_or_404()
+
+    url.visits += 1
+    db.session.commit()
+
+    return redirect(url.original_url)

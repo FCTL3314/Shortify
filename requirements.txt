@@ -1,5 +1,9 @@
 Flask==2.3.1
+SQLAlchemy==2.0.11
 Flask-SQLAlchemy==3.0.3
 Flask-WTF==1.1.1
+Flask-Login==0.6.2
+Flask-Bcrypt==1.0.1
 WTForms==3.0.1
+email_validator==2.0.0.post2
 python-dotenv==1.0.0

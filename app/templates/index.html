@@ -1,109 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}" type="text/css">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
-  <title>Shortify</title>
-</head>
-<body>
-<header class="header">
-  <a class="header__link mr-auto" href="{{ url_for('users.login') }}">
-    <div class="header__item">
-      <span class="header__text">Log In</span>
-    </div>
-  </a>
-  <a class="header__link" href="#">
-    <div class="header__item header__item--active">
-      <span class="header__text">Shortify</span>
-    </div>
-  </a>
-  <a class="header__link" href="#">
-    <div class="header__item">
-      <span class="header__text">YouTube Downloader</span>
-    </div>
-  </a>
-  <a class="header__link" href="#">
-    <div class="header__item">
-      <span class="header__text">Profile</span>
-    </div>
-  </a>
-  <a class="header__link ml-auto" href="{{ url_for('users.registration') }}">
-    <div class="header__item">
-      <span class="header__text">Sign Up</span>
-    </div>
-  </a>
-</header>
-<hr class="divider">
-<section class="shortener">
-  <div class="shortener-wrp">
-    <h1 class="shortener__title">URL Shortener</h1>
-    <label class="shortener__desc" for="{{ form.original_url.id }}">Shorten and use shortened urls absolutely free.</label>
-    <form action="{{ url_for('main.index') }}" method="post">
+{% extends 'base.html' %}
 
-      {{ form.hidden_tag() }}
+{% block content %}
+  <section class="shortener">
+    <div class="shortener-wrp">
+      <h1 class="shortener__title">Shortify - URL Shortening</h1>
+      <label class="shortener__desc" for="{{ form.original_url.id }}">
+        Shorten and use shortened URLs. It's fast and free.
+      </label>
+      <form action="{{ url_for('main.index') }}" method="post">
 
-      <div class="input-group d-flex">
-        {{ form.original_url() }}
-        {{ form.submit }}
+        {{ form.hidden_tag() }}
+
+        <div class="input-group d-flex">
+          {{ form.original_url() }}
+          {{ form.submit }}
+        </div>
+      </form>
+      {% if get_flashed_messages() %}
+        <div class="flash flash--active">
+          {% for message in get_flashed_messages() %}
+            <div class="flash-content">
+              <p class="flash__title">{{ message }}</p>
+              <a class="flash__link" href="{{ short_url }}" target="_blank">{{ short_url }}</a>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </section>
+  <section class="about">
+    <div class="about-wrp">
+      <h2 class="about__title">The Best URL Shortener</h2>
+      <p class="about__desc">
+        Shortify will help you convert long urls into short ones and save them on the site, then you can use the
+        short urls you created to quickly and easily navigate to the desired links.
+      </p>
+    </div>
+  </section>
+  <section class="cards">
+    <div class="cards-wrp">
+      <div class="card">
+        <div class="card-img-wrp">
+          <img src="{{ url_for('static', filename='img/clock.svg') }}" alt="clock">
+        </div>
+        <div class="card-text-wrp">
+          <h4 class="card__title">Fast and easy to use</h4>
+          <p class="card__desc">
+            Using this site is the quickest and easiest way to shorten any of your links, or to use already shortened
+            ones.
+          </p>
+        </div>
       </div>
-    </form>
-  </div>
-</section>
-<section class="about">
-  <div class="about-wrp">
-    <h2 class="about__title">The Best URL Shorter</h2>
-    <p class="about__desc">
-      URL Shortener will help you convert long urls into short ones and save them on the site, then you can use the
-      short urls you created to quickly and easily navigate to the desired links.
-    </p>
-  </div>
-</section>
-<section class="cards">
-  <div class="cards-wrp">
-    <div class="card">
-      <div class="card-img-wrp">
-        <img src="{{ url_for('static', filename='img/clock.svg') }}" alt="clock">
+      <div class="card">
+        <div class="card-img-wrp">
+          <img src="{{ url_for('static', filename='img/limits.svg') }}" alt="clock">
+        </div>
+        <div class="card-text-wrp">
+          <h4 class="card__title">Without restriction</h4>
+          <p class="card__desc">Shorten any links as much as you want, unlimited and always free.</p>
+        </div>
       </div>
-      <div class="card-text-wrp">
-        <h4 class="card__title">Fast and easy to use</h4>
-        <p class="card__desc">
-          Using this site is the quickest and easiest way to shorten any of your links, or to use already shortened
-          ones.
-        </p>
+      <div class="card">
+        <div class="card-img-wrp">
+          <img src="{{ url_for('static', filename='img/safe.svg') }}" alt="clock">
+        </div>
+        <div class="card-text-wrp">
+          <h4 class="card__title">Fast and easy to use</h4>
+          <p class="card__desc">All your links are securely stored and not shared with anyone, don't worry.</p>
+        </div>
       </div>
     </div>
-    <div class="card">
-      <div class="card-img-wrp">
-        <img src="{{ url_for('static', filename='img/limits.svg') }}" alt="clock">
-      </div>
-      <div class="card-text-wrp">
-        <h4 class="card__title">Without restriction</h4>
-        <p class="card__desc">Shorten any links as much as you want, unlimited and always free.</p>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-img-wrp">
-        <img src="{{ url_for('static', filename='img/safe.svg') }}" alt="clock">
-      </div>
-      <div class="card-text-wrp">
-        <h4 class="card__title">Fast and easy to use</h4>
-        <p class="card__desc">All your links are securely stored and not shared with anyone, don't worry.</p>
-      </div>
-    </div>
-  </div>
-</section>
-<hr class="divider">
-<footer class="footer">
-  <div class="footer-wrp">
-    <h2 class="footer__title">About</h2>
-    <p class="footer__desc">The project was created for educational purposes and is not designed for real use.</p>
-    <hr class="divider divider--footer">
-    <small>
-      Copyright &copy; 2023
-      <a href="https://github.com/FCTL3314/Shortify" class="footer__link">Shortify</a>
-    </small>
-  </div>
-</footer>
-</body>
-</html>
+  </section>
+{% endblock %}

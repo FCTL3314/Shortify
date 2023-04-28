@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" href="{{ url_for('static', filename='img/icon.svg') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <title>Title</title>
+  <title>{% block title %} Shortify {% endblock %}</title>
 </head>
 <body>
 <div class="container-center bg-secondary vh-100">

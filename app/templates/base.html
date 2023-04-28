@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="{{ url_for('static', filename='img/icon.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/reset.css') }}" type="text/css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
+  <title>Shortify | URL Shortening</title>
+</head>
+<body>
+<header class="header">
+  <div class="header-item mr-auto">
+    <img src="{{ url_for('static', filename='img/icon.svg') }}" alt="logo" width="60" height="60">
+  </div>
+  <ul class="d-flex">
+    <li>
+      <a class="header__link" href="{{ url_for('main.index') }}">
+        <div class="header-item header-item--active">
+          <span class="header__text">Shortify</span>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a class="header__link" href="#">
+        <div class="header-item">
+          <span class="header__text">Profile</span>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a class="header__link" href="#footer">
+        <div class="header-item">
+          <span class="header__text">About</span>
+        </div>
+      </a>
+    </li>
+  </ul>
+  {% if user.is_authenticated %}
+    <a class="header__link header__logout ml-auto" href="{{ url_for('users.logout') }}">
+      <div class="header-item">
+        <span class="header__text">Logout</span>
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="16"
+             height="16"
+             fill="currentColor"
+             class="icon bi bi-door-open-fill"
+             viewBox="0 0 16 16">
+          <path d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7
+          1A.5.5 0 0 0 3 1.5V15H1.5zM11 2h.5a.5.5 0 0 1 .5.5V15h-1V2zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5
+          1-.224 1-.5 1z"></path>
+        </svg>
+      </div>
+    </a>
+  {% else %}
+    <a class="header__link ml-auto" href="{{ url_for('users.registration') }}">
+      <div class="header-item">
+        <span class="header__text">Sign Up</span>
+      </div>
+    </a>
+  {% endif %}
+</header>
+<hr class="divider">
+{% block content %} {% endblock %}
+<hr class="divider">
+<footer id="footer" class="footer">
+  <div class="footer-wrp">
+    <h2 class="footer__title">About</h2>
+    <p class="footer__desc">The project was created for educational purposes and is not designed for real use.</p>
+    <hr class="divider divider--footer">
+    <small>
+      Copyright &copy; 2023
+      <a href="https://github.com/FCTL3314/Shortify" class="footer__link">Shortify</a>
+    </small>
+  </div>
+</footer>
+</body>
+</html>

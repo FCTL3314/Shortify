@@ -1,29 +1,57 @@
 {% extends 'users/base.html' %}
 
+{% block title %} Shortify | Sign Up {% endblock %}
+
 {% block form %}
-  <form class="form" action="{{ url_for('users.registration') }}" method="post">
+  <form class="registration-form" action="{{ url_for('users.registration') }}" method="post">
+
+    {{ form.hidden_tag() }}
+
     <h2 class="form__title">Sign Up</h2>
+    {% if get_flashed_messages() %}
+      <div class="flash flash--active">
+        {% for message in get_flashed_messages() %}
+          <div class="flash-content">
+            <p class="flash__text">{{ message }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    {% elif form.errors %}
+      <div class="flash flash--active">
+        <div class="flash-content">
+          {% for field, errors in form.errors.items() %}
+            {% for error in errors %}
+              <p class="flash__text"><span class="flash__bold">{{ field|capitalize }}: </span>{{ error }}</p>
+            {% endfor %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
     <hr class="divider">
     <div class="input-group">
-      <label for="username">Username:</label>
-      <input id="username" class="input input--auth" placeholder="Enter username" type="text">
+      <label for="{{ form.username.id }}">Username:</label>
+      {{ form.username }}
       <p class="form__text">Your username must be at least 4 characters up to a maximum of 32.</p>
     </div>
     <div class="input-group">
-      <label for="email">Email:</label>
-      <input id="email" class="input input--auth" placeholder="Enter email" type="text">
+      <label for="{{ form.email.id }}">Email:</label>
+      {{ form.email }}
     </div>
     <div class="input-group">
-      <label for="password">Password:</label>
-      <input id="password" class="input input--auth" placeholder="Enter password" type="password">
+      <label for="{{ form.password.id }}">Password:</label>
+      {{ form.password }}
       <p class="form__text">
         Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces or
         special characters.
       </p>
     </div>
+    <div class="input-group">
+      <label for="{{ form.password_confirmation.id }}">Confirm password:</label>
+      {{ form.password_confirmation }}
+    </div>
     <hr class="divider">
     <div class="form-submit-wrp">
-      <button class="btn btn--form">Sign Up</button>
+      {{ form.submit }}
       <p>
         Already registered?
         <a href="{{ url_for('users.login') }}" class="form-link form-link--active">

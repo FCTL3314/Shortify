@@ -1,27 +1,50 @@
 {% extends 'users/base.html' %}
 
+{% block title %} Shortify | Log In {% endblock %}
 
 {% block form %}
-  <form class="form" action="{{ url_for('users.login') }}" method="post">
+  <form class="login-form" action="{{ url_for('users.login') }}" method="post">
+
+    {{ form.hidden_tag() }}
+
     <h2 class="form__title">Log In</h2>
+    {% if get_flashed_messages() %}
+      <div class="flash flash--active">
+        {% for message in get_flashed_messages() %}
+          <div class="flash-content">
+            <p class="flash__text">{{ message }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    {% elif form.errors %}
+      <div class="flash flash--active">
+        <div class="flash-content">
+          {% for field, errors in form.errors.items() %}
+            {% for error in errors %}
+              <p class="flash__text"><span class="flash__bold">{{ field|capitalize }}: </span>{{ error }}</p>
+            {% endfor %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
     <hr class="divider">
     <div class="input-group">
-      <label for="username-input">Username:</label>
-      <input id="username-input" class="input input--auth" placeholder="Enter username" type="text">
+      <label for="{{ form.username.id }}">Username:</label>
+      {{ form.username }}
       <p class="form__text">Note that the username may be case-sensitive.</p>
     </div>
     <div class="input-group">
-      <label for="password-input">Password:</label>
-      <input id="password-input" class="input input--auth" placeholder="Enter password" type="password">
+      <label for="{{ form.password.id }}">Password:</label>
+      {{ form.password }}
     </div>
     <div class="input-group d-flex">
-      <input class="form__checkbox" id="remember" type="checkbox">
-      <label for="remember">Remember me</label>
+      {{ form.remember_me }}
+      <label for="{{ form.remember_me.id }}">Remember me</label>
       <a class="form-link form-link--secondary ml-auto" href="#">Forgot password ?</a>
     </div>
     <hr class="divider">
     <div class="form-submit-wrp">
-      <button class="btn btn--form" type="submit">Log In</button>
+      {{ form.submit }}
       <p>
         Not registered ?
         <a class="form-link form-link--active" href="{{ url_for('users.registration') }}">
