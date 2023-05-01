@@ -1,6 +1,13 @@
+import os
+from uuid import uuid1
+
 from flask_login import UserMixin
+from slugify import slugify
+from sqlalchemy.event import listens_for
+from werkzeug.utils import secure_filename
 
 from app.extensions import db
+from config import Config
 
 
 class User(UserMixin, db.Model):
@@ -10,3 +17,29 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(128), nullable=False)
     first_name = db.Column(db.String(64))
     last_name = db.Column(db.String(64))
+    image = db.Column(db.Text, nullable=True, unique=True)
+    slug = db.Column(db.String(32), nullable=False, unique=True)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.create_slug()
+
+    def create_slug(self):
+        self.slug = slugify(self.username)
+
+    def save_image_if_exists(self, image):
+        filename = image.filename
+        if filename:
+            safe_filename = str(uuid1()) + secure_filename(filename)
+            save_path = os.path.join(Config.UPLOAD_FOLDER, safe_filename)
+            image.save(save_path)
+            self.image = safe_filename
+            db.session.commit()
+
+    def __repr__(self):
+        return self.username
+
+
+@listens_for(User, 'before_update')
+def change_slug(mapper, connection, target):
+    target.create_slug()

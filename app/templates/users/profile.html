@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <div class="profile-wrp">
+      {% if user.image %}
+        <img class="profile-img" src="{{ url_for('media', filename=user.image) }}" alt="user_image" height="256"
+             width="256">
+      {% else %}
+        <img class="profile-img" src="{{ url_for('static', filename='img/default_user_image.png') }}" alt="user_image"
+             height="256"
+             width="256">
+      {% endif %}
+      <h3 class="profile__username">{{ user.username }}</h3>
+      {% if get_flashed_messages() %}
+        <div class="flash flash--active">
+          {% for message in get_flashed_messages() %}
+            <div class="flash-content">
+              <p class="flash__text">{{ message }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      {% elif form.errors %}
+        <div class="flash flash--active">
+          <div class="flash-content">
+            {% for field, errors in form.errors.items() %}
+              {% for error in errors %}
+                <p class="flash__text"><span class="flash__bold">{{ field|capitalize }}: </span>{{ error }}</p>
+              {% endfor %}
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+      <div class="profile-form-wrp">
+        <form class="profile-form" action="{{ url_for('users.profile', slug=user.slug) }}" method="post"
+              enctype="multipart/form-data">
+
+          {{ form.hidden_tag() }}
+
+          <div class="input-group">
+            <label for="{{ form.username.id }}">Username:</label>
+            {{ form.username(value=user.username) }}
+          </div>
+          <div class="input-group">
+            <label for="{{ form.first_name.id }}">First name:</label>
+            {% if user.first_name %}
+              {{ form.first_name(value=user.first_name) }}
+            {% else %}
+              {{ form.first_name }}
+            {% endif %}
+          </div>
+          <div class="input-group">
+            <label for="{{ form.last_name.id }}">Last name:</label>
+            {% if user.last_name %}
+              {{ form.last_name(value=user.last_name) }}
+            {% else %}
+              {{ form.last_name }}
+            {% endif %}
+          </div>
+          <div class="input-group">
+            <label for="{{ form.image.id }}">Image:</label>
+            {{ form.image }}
+          </div>
+          <div class="form-submit-wrp">
+            {{ form.submit }}
+          </div>
+        </form>
+      </div>
+    </div>
+{% endblock %}

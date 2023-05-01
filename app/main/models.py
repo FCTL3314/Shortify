@@ -28,5 +28,9 @@ class Url(db.Model):
 
         return short_url
 
+    def increase_visits(self):
+        self.visits += 1
+        db.session.commit()
+
     def __repr__(self):
         return f'{self.short_url} | {self.visits}'

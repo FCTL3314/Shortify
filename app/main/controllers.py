@@ -1,4 +1,4 @@
-from flask import flash, redirect, render_template, request, url_for
+from flask import flash, redirect, render_template, url_for
 from flask_login import current_user
 
 from app.extensions import db
@@ -10,7 +10,7 @@ from app.main.models import Url
 @bp.route('/', methods=['GET', 'POST'])
 def index():
     form = ShortenUrlForm()
-    if request.method == 'POST':
+    if form.validate_on_submit():
         original_url = form.original_url.data
 
         url = Url(original_url=original_url)
@@ -28,8 +28,5 @@ def index():
 @bp.route('/<short_url>')
 def redirect_to_url(short_url):
     url = Url.query.filter_by(short_url=short_url).first_or_404()
-
-    url.visits += 1
-    db.session.commit()
-
+    url.increase_visits()
     return redirect(url.original_url)

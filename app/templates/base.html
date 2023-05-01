@@ -15,18 +15,28 @@
   <ul class="d-flex">
     <li>
       <a class="header__link" href="{{ url_for('main.index') }}">
-        <div class="header-item header-item--active">
+        <div class="header-item {% if request.endpoint == 'main.index' %} header-item--active {% endif %}">
           <span class="header__text">Shortify</span>
         </div>
       </a>
     </li>
-    <li>
-      <a class="header__link" href="#">
-        <div class="header-item">
-          <span class="header__text">Profile</span>
-        </div>
-      </a>
-    </li>
+    {% if user.is_authenticated %}
+      <li>
+        <a class="header__link" href="{{ url_for('users.profile', slug=user.slug) }}">
+          <div class="header-item {% if request.endpoint == 'users.profile' %} header-item--active {% endif %}">
+            <span class="header__text">Profile</span>
+          </div>
+        </a>
+      </li>
+    {% else %}
+      <li>
+        <a class="header__link">
+          <div class="header-item header__item--disabled">
+            <span class="header__text">Profile</span>
+          </div>
+        </a>
+      </li>
+    {% endif %}
     <li>
       <a class="header__link" href="#footer">
         <div class="header-item">

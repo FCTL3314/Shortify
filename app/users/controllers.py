@@ -1,12 +1,11 @@
-from flask import flash, redirect, render_template, url_for
-from flask_login import login_required, login_user, logout_user, current_user
-
-from app.extensions import bcrypt, db, login_manager
-from app.users import bp
-from app.users.forms import LoginForm, RegistrationForm
-from app.users.models import User
+from flask import abort, flash, redirect, render_template, request, url_for
+from flask_login import current_user, login_required, login_user, logout_user
 
 from app.common.decorators import logout_required
+from app.extensions import bcrypt, db, login_manager
+from app.users import bp
+from app.users.forms import LoginForm, ProfileForm, RegistrationForm
+from app.users.models import User
 
 
 @login_manager.user_loader
@@ -50,7 +49,7 @@ def registration():
         password = form.password.data
         hashed_password = bcrypt.generate_password_hash(password)
 
-        new_user = User(username=username, email=email, password=hashed_password)  # type: ignore
+        new_user = User(username=username, email=email, password=hashed_password)  # Type: ignore
         db.session.add(new_user)
         db.session.commit()
 
@@ -58,3 +57,35 @@ def registration():
 
         return redirect(url_for('users.login'))
     return render_template('users/registration.html', form=form)
+
+
+@bp.route('/profile/<string:slug>/', methods=['GET', 'POST'])
+@login_required
+def profile(slug):
+    user = User.query.filter_by(slug=slug).first_or_404()
+
+    if user != current_user:
+        return abort(403)
+
+    form = ProfileForm()
+
+    if form.validate_on_submit():
+        username = form.username.data
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+        image = request.files.get('image')
+
+        user.save_image_if_exists(image)
+
+        if username:
+            user.username = username
+        if first_name:
+            user.first_name = first_name
+        if last_name:
+            user.last_name = last_name
+
+        db.session.commit()
+
+        flash('Profile successfully updated!', 'success')
+
+    return render_template('users/profile.html', form=form, user=user)

@@ -23,10 +23,6 @@ body {
     display: flex;
 }
 
-.vh-100 {
-    min-height: 100vh;
-}
-
 .mr-auto {
     margin-right: auto;
 }
@@ -92,7 +88,14 @@ body {
     color: var(--active-interactive);
 }
 
+.container {
+    margin: 0 auto 0 auto;
+    width: 1440px;
+    background-color: var(--bg-main);
+}
+
 .container-center {
+    min-height: 100vh;
     width: 100%;
     display: flex;
     align-items: center;
@@ -122,12 +125,20 @@ body {
     transition-duration: 0.05s;
 }
 
+.input::file-selector-button {
+    display: none;
+}
+
 .input:focus {
     outline: 0.15em solid var(--active);
 }
 
 .input--auth {
     margin: 10px 0 0;
+}
+
+.input--profile {
+    margin: 16px 0 0;
 }
 
 .btn:hover,
@@ -166,6 +177,10 @@ body {
     transition-duration: 0.1s;
 }
 
+.header__item--disabled {
+    opacity: 0.65;
+}
+
 .header__text {
     text-align: center;
     line-height: 30px;
@@ -178,12 +193,12 @@ body {
     transition-duration: 0.1s;
 }
 
-.header__logout:hover {
-    color: var(--danger);
-}
-
 .header__link:hover {
     font-size: 22px;
+}
+
+.header__logout:hover {
+    color: var(--danger);
 }
 
 .header__link:hover .header-item::after,
@@ -194,7 +209,7 @@ body {
 .shortener {
     display: flex;
     justify-content: center;
-    margin: 45px 0 0;
+    padding: 45px 0 0;
 }
 
 .shortener-wrp {
@@ -223,7 +238,7 @@ body {
 .about {
     display: flex;
     justify-content: center;
-    margin: 80px 0 0;
+    margin: 45px 0 0;
 }
 
 .about-wrp {
@@ -244,7 +259,7 @@ body {
 .cards {
     display: flex;
     justify-content: center;
-    margin: 60px 0;
+    padding: 60px 0;
 }
 
 .cards-wrp {
@@ -318,6 +333,40 @@ body {
 
 .footer__link {
     color: inherit;
+}
+
+.profile-wrp {
+    max-width: 800px;
+    text-align: center;
+    margin: 25px auto;
+}
+
+.profile-form-wrp {
+    text-align: start;
+    display: flex;
+    justify-content: center;
+}
+
+.profile-img {
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.profile-form {
+    width: 620px;
+}
+
+.profile__username {
+    font-size: 40px;
+    font-weight: 700;
+    margin: 12px 0 0 0;
+}
+
+.btn--profile {
+    color: #FFF;
+    font-size: 24px;
+    width: 7.5em;
+    height: 2em;
 }
 
 .form-wrp {

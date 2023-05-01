@@ -1,6 +1,7 @@
+from flask_login import current_user
 from flask_wtf import FlaskForm
-from wtforms import (BooleanField, EmailField, PasswordField, StringField,
-                     SubmitField)
+from wtforms import (BooleanField, EmailField, FileField, PasswordField,
+                     StringField, SubmitField)
 from wtforms.validators import (Email, EqualTo, InputRequired, Length,
                                 ValidationError)
 
@@ -79,3 +80,46 @@ class LoginForm(FlaskForm):
         render_kw={'class': 'form__checkbox'}
     )
     submit = SubmitField('Log In', render_kw={'class': 'btn btn--form'})
+
+
+class ProfileForm(FlaskForm):
+    username = StringField(
+        'username',
+        validators=[Length(min=4, max=32)],
+        render_kw={
+            'class': 'input input--profile',
+            'placeholder': 'Enter username',
+        },
+    )
+
+    first_name = StringField(
+        'first_name',
+        validators=[Length(max=64)],
+        render_kw={
+            'class': 'input input--profile',
+            'placeholder': 'Enter first name',
+        },
+    )
+
+    last_name = StringField(
+        'last_name',
+        validators=[Length(max=64)],
+        render_kw={
+            'class': 'input input--profile',
+            'placeholder': 'Enter last name',
+        },
+    )
+
+    image = FileField(
+        'image',
+        render_kw={
+            'class': 'input input--profile',
+        },
+    )
+
+    submit = SubmitField('Change', render_kw={'class': 'btn btn--profile'})
+
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user and user != current_user:
+            raise ValidationError('A user with this username already exists.')
