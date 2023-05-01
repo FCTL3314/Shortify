@@ -1,10 +1,11 @@
-from flask_login import current_user
+from flask_login import current_user, login_user
 from flask_wtf import FlaskForm
 from wtforms import (BooleanField, EmailField, FileField, PasswordField,
                      StringField, SubmitField)
 from wtforms.validators import (Email, EqualTo, InputRequired, Length,
                                 ValidationError)
 
+from app.extensions import bcrypt, db
 from app.users.models import User
 
 
@@ -57,6 +58,17 @@ class RegistrationForm(FlaskForm):
         if is_exists:
             raise ValidationError('A user with this email already exists.')
 
+    def create_new_user(self):
+        username = self.username.data
+        email = self.email.data
+        password = self.password.data
+        hashed_password = bcrypt.generate_password_hash(password)
+
+        new_user = User(username=username, email=email, password=hashed_password)  # Type: ignore
+
+        db.session.add(new_user)
+        db.session.commit()
+
 
 class LoginForm(FlaskForm):
     username = StringField(
@@ -80,6 +92,14 @@ class LoginForm(FlaskForm):
         render_kw={'class': 'form__checkbox'}
     )
     submit = SubmitField('Log In', render_kw={'class': 'btn btn--form'})
+
+    def authenticate_user(self):
+        user = User.query.filter_by(username=self.username.data).first()
+
+        if user and bcrypt.check_password_hash(user.password, self.password.data):
+            login_user(user, remember=self.remember_me.data)
+            return True
+        return False
 
 
 class ProfileForm(FlaskForm):
@@ -110,12 +130,7 @@ class ProfileForm(FlaskForm):
         },
     )
 
-    image = FileField(
-        'image',
-        render_kw={
-            'class': 'input input--profile',
-        },
-    )
+    image = FileField('image')
 
     submit = SubmitField('Change', render_kw={'class': 'btn btn--profile'})
 

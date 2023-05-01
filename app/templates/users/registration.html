@@ -17,7 +17,7 @@
         {% endfor %}
       </div>
     {% elif form.errors %}
-      <div class="flash flash--active">
+      <div class="flash flash--error">
         <div class="flash-content">
           {% for field, errors in form.errors.items() %}
             {% for error in errors %}

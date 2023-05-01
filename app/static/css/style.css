@@ -6,6 +6,8 @@
     --active-light: #FF56447F;
     --active-interactive: #ff4533;
     --danger: #ff4b4b;
+    --danger-light: #ff9999;
+    --danger-interactive: #ff2c2c;
     --bg-main: #F8F9FB;
     --bg-secondary: #D9D9D9;
     scroll-behavior: smooth;
@@ -87,6 +89,19 @@ body {
 .flash--active .flash__link:hover {
     color: var(--active-interactive);
 }
+
+.flash--error {
+    color: var(--danger);
+    background-color: var(--danger-light);
+    border-color: var(--danger);
+}
+
+.flash--error .flash__link:hover,
+.flash--error .flash__link:hover,
+.flash--error .flash__link:hover {
+    color: var(--danger-interactive);
+}
+
 
 .container {
     margin: 0 auto 0 auto;
@@ -315,7 +330,7 @@ body {
 
 .footer-wrp {
     width: 900px;
-    margin: 20px 0;
+    padding: 20px 0;
 }
 
 .footer__title {
@@ -336,7 +351,7 @@ body {
 }
 
 .profile-wrp {
-    max-width: 800px;
+    max-width: 620px;
     text-align: center;
     margin: 25px auto;
 }
@@ -353,7 +368,7 @@ body {
 }
 
 .profile-form {
-    width: 620px;
+    width: 100%;
 }
 
 .profile__username {

@@ -27,14 +27,33 @@ class User(UserMixin, db.Model):
     def create_slug(self):
         self.slug = slugify(self.username)
 
-    def save_image_if_exists(self, image):
+    def update_image_if_exists(self, image):
         filename = image.filename
         if filename:
-            safe_filename = str(uuid1()) + secure_filename(filename)
+            safe_filename = self.create_safe_filename(filename)
             save_path = os.path.join(Config.UPLOAD_FOLDER, safe_filename)
             image.save(save_path)
+
+            self.remove_old_image(self.image)
             self.image = safe_filename
+
             db.session.commit()
+
+    def create_safe_filename(self, filename):
+        safe_filename = str(uuid1()) + secure_filename(filename)
+
+        path = os.path.join(Config.UPLOAD_FOLDER, safe_filename)
+        is_exists = os.path.exists(path)
+
+        if is_exists:
+            return self.create_safe_filename(filename)
+        return safe_filename
+
+    @staticmethod
+    def remove_old_image(filename):
+        path = os.path.join(Config.UPLOAD_FOLDER, filename)
+        if os.path.exists(path):
+            os.remove(path)
 
     def __repr__(self):
         return self.username
