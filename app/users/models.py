@@ -52,9 +52,10 @@ class User(UserMixin, db.Model):
 
     @staticmethod
     def remove_old_image(filename):
-        path = os.path.join(Config.UPLOAD_FOLDER, filename)
-        if os.path.exists(path):
-            os.remove(path)
+        if filename:
+            path = os.path.join(Config.UPLOAD_FOLDER, filename)
+            if os.path.exists(path):
+                os.remove(path)
 
     def __repr__(self):
         return self.username
