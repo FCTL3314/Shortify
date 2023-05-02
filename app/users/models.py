@@ -8,6 +8,7 @@ from werkzeug.utils import secure_filename
 
 from app.extensions import db
 from config import Config
+from app.common.utils import is_extension_allowed
 
 
 class User(UserMixin, db.Model):
@@ -27,9 +28,9 @@ class User(UserMixin, db.Model):
     def create_slug(self):
         self.slug = slugify(self.username)
 
-    def update_image_if_exists(self, image):
+    def update_image(self, image):
         filename = image.filename
-        if filename:
+        if filename and is_extension_allowed(filename):
             safe_filename = self.create_safe_filename(filename)
             save_path = os.path.join(Config.UPLOAD_FOLDER, safe_filename)
             image.save(save_path)

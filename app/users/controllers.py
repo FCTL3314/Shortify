@@ -58,7 +58,7 @@ def profile(slug):
         last_name = form.last_name.data
         image = form.image.data
 
-        user.update_image_if_exists(image)
+        user.update_image(image)
 
         if username:
             user.username = username

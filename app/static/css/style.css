@@ -21,6 +21,10 @@ body {
     background-color: var(--bg-main);
 }
 
+.bg-secondary {
+    background-color: var(--bg-secondary);
+}
+
 .d-flex {
     display: flex;
 }
@@ -33,12 +37,55 @@ body {
     margin-left: auto;
 }
 
-.bg-secondary {
-    background-color: var(--bg-secondary);
-}
-
 .icon {
     margin: 0 0 0 6px;
+}
+
+.container {
+    margin: 0 auto 0 auto;
+    width: 1440px;
+    background-color: var(--bg-main);
+}
+
+.container-center {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn {
+    color: #FFF;
+    width: 7.5em;
+    cursor: pointer;
+    border: none;
+    background-color: var(--active);
+    border-radius: .3em;
+    transition-duration: 0.2s;
+
+}
+
+.btn:hover,
+.btn:active,
+.btn:focus {
+    background-color: var(--active-interactive);
+}
+
+.btn--shortener {
+    font-size: 20px;
+    margin: 0 0 0 10px;
+}
+
+.btn--profile {
+    font-size: 24px;
+    height: 2em;
+}
+
+.btn--form {
+    font-size: 24px;
+    height: 2em;
+    margin: 0 0 16px;
 }
 
 .flash {
@@ -102,29 +149,6 @@ body {
     color: var(--danger-interactive);
 }
 
-
-.container {
-    margin: 0 auto 0 auto;
-    width: 1440px;
-    background-color: var(--bg-main);
-}
-
-.container-center {
-    min-height: 100vh;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.btn {
-    cursor: pointer;
-    border: none;
-    background-color: var(--active);
-    border-radius: .3em;
-    transition-duration: 0.2s;
-}
-
 .input-group {
     margin: 16px 0;
 }
@@ -140,10 +164,6 @@ body {
     transition-duration: 0.05s;
 }
 
-.input::file-selector-button {
-    display: none;
-}
-
 .input:focus {
     outline: 0.15em solid var(--active);
 }
@@ -154,12 +174,6 @@ body {
 
 .input--profile {
     margin: 16px 0 0;
-}
-
-.btn:hover,
-.btn:active,
-.btn:focus {
-    background-color: var(--active-interactive);
 }
 
 .divider {
@@ -241,13 +255,6 @@ body {
     display: block;
     font-size: 24px;
     margin: 24px 0 0;
-}
-
-.btn--shortener {
-    color: #FFF;
-    font-size: 20px;
-    width: 7.5em;
-    margin: 0 0 0 10px;
 }
 
 .about {
@@ -377,13 +384,6 @@ body {
     margin: 12px 0 0 0;
 }
 
-.btn--profile {
-    color: #FFF;
-    font-size: 24px;
-    width: 7.5em;
-    height: 2em;
-}
-
 .form-wrp {
     padding: 26px 36px;
     background-color: #FFF;
@@ -450,14 +450,6 @@ body {
 
 .form__checkbox:checked {
     accent-color: var(--active);
-}
-
-.btn--form {
-    color: #FFF;
-    font-size: 24px;
-    width: 7.5em;
-    height: 2em;
-    margin: 0 0 16px;
 }
 
 .form-submit-wrp {
