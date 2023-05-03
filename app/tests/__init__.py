@@ -1,9 +1,9 @@
-from abc import abstractmethod, ABC
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
 from app.extensions import bcrypt, db
-from app.users.models import User
 from app.main.models import Url
+from app.users.models import User
 
 
 class TestObject(ABC):

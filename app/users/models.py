@@ -6,9 +6,9 @@ from slugify import slugify
 from sqlalchemy.event import listens_for
 from werkzeug.utils import secure_filename
 
+from app.common.utils import is_extension_allowed
 from app.extensions import db
 from config import Config
-from app.common.utils import is_extension_allowed
 
 
 class User(UserMixin, db.Model):

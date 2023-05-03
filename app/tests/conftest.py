@@ -2,7 +2,6 @@ import pytest
 
 from app import create_app
 from app.extensions import db
-
 from config import TestConfig
 
 

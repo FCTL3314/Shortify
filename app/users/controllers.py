@@ -58,8 +58,8 @@ def profile(slug):
         last_name = form.last_name.data
         image = form.image.data
 
-        user.update_image(image)
-
+        if image:
+            user.update_image(image)
         if username:
             user.username = username
         if first_name:

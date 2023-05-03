@@ -1,10 +1,10 @@
-from flask import url_for
-
 from http import HTTPStatus
 
+from flask import url_for
+
 from app.main.models import Url
-from config import TestConfig
 from app.tests import TestUrl
+from config import TestConfig
 
 test_url = TestUrl()
 
