@@ -23,7 +23,7 @@ def create_app(config_class=Config):
     app.register_blueprint(main_bp)
     app.register_blueprint(users_bp, url_prefix='/users')
 
-    @app.route('/media/<filename>/')
+    @app.route('/media/<path:filename>/')
     def media(filename):
         return send_from_directory(Config.UPLOAD_FOLDER, filename)
 

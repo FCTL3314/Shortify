@@ -4,12 +4,11 @@
 {% block content %}
     <div class="profile-wrp">
       {% if user.image %}
-        <img class="profile-img" src="{{ url_for('media', filename=user.image) }}" alt="user_image" height="256"
-             width="256">
+        <img class="profile-img" src="{{ url_for('media', filename=users_media_dir + '/' + user.image) }}"
+             alt="user_image" height="256" width="256">
       {% else %}
         <img class="profile-img" src="{{ url_for('static', filename='img/default_user_image.png') }}" alt="user_image"
-             height="256"
-             width="256">
+             height="256" width="256">
       {% endif %}
       <h3 class="profile__username">{{ user.username }}</h3>
       {% if get_flashed_messages() %}

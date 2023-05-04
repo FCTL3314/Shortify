@@ -1,12 +1,11 @@
 import os
-from uuid import uuid1
 
 from flask_login import UserMixin
 from slugify import slugify
 from sqlalchemy.event import listens_for
-from werkzeug.utils import secure_filename
 
-from app.common.utils import is_extension_allowed
+from app.common.utils import (create_safe_filename, is_extension_allowed,
+                              remove_file, save_media_file)
 from app.extensions import db
 from config import Config
 
@@ -31,31 +30,16 @@ class User(UserMixin, db.Model):
     def update_image(self, image):
         filename = image.filename
         if filename and is_extension_allowed(filename):
-            safe_filename = self.create_safe_filename(filename)
-            save_path = os.path.join(Config.UPLOAD_FOLDER, safe_filename)
-            image.save(save_path)
+            safe_filename = create_safe_filename(filename)
+            save_media_file(Config.USERS_MEDIA_DIR, image, safe_filename=safe_filename)
 
-            self.remove_old_image(self.image)
+            remove_file(
+                os.path.join(Config.UPLOAD_FOLDER, Config.USERS_MEDIA_DIR),
+                self.image,
+            )
             self.image = safe_filename
 
             db.session.commit()
-
-    def create_safe_filename(self, filename):
-        safe_filename = str(uuid1()) + secure_filename(filename)
-
-        path = os.path.join(Config.UPLOAD_FOLDER, safe_filename)
-        is_exists = os.path.exists(path)
-
-        if is_exists:
-            return self.create_safe_filename(filename)
-        return safe_filename
-
-    @staticmethod
-    def remove_old_image(filename):
-        if filename:
-            path = os.path.join(Config.UPLOAD_FOLDER, filename)
-            if os.path.exists(path):
-                os.remove(path)
 
     def __repr__(self):
         return self.username

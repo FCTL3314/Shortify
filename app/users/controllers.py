@@ -6,6 +6,7 @@ from app.extensions import db, login_manager
 from app.users import bp
 from app.users.forms import LoginForm, ProfileForm, RegistrationForm
 from app.users.models import User
+from config import Config
 
 
 @login_manager.user_loader
@@ -70,5 +71,4 @@ def profile(slug):
         db.session.commit()
 
         flash('Profile successfully updated!', 'success')
-
-    return render_template('users/profile.html', form=form, user=user)
+    return render_template('users/profile.html', form=form, user=user, users_media_dir=Config.USERS_MEDIA_DIR, )

@@ -27,6 +27,9 @@ class Config:
     SHORT_URL_LENGTH = 8
     URL_PER_PAGE = 3
 
+    # Users
+    USERS_MEDIA_DIR = 'users'
+
 
 class TestConfig(Config):
     # Security
