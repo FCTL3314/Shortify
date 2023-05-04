@@ -25,6 +25,7 @@ class Config:
 
     # Main
     SHORT_URL_LENGTH = 8
+    URL_PER_PAGE = 3
 
 
 class TestConfig(Config):
