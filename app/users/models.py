@@ -6,7 +6,7 @@ from sqlalchemy.event import listens_for
 
 from app.common.utils import (create_safe_filename, is_extension_allowed,
                               remove_file, save_media_file)
-from app.extensions import db
+from app.extensions import bcrypt, db
 from config import Config
 
 
@@ -22,7 +22,14 @@ class User(UserMixin, db.Model):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.hash_password()
         self.create_slug()
+
+    def hash_password(self):
+        self.password = bcrypt.generate_password_hash(self.password)
+
+    def check_password(self, password):
+        return bcrypt.check_password_hash(self.password, password)
 
     def create_slug(self):
         self.slug = slugify(self.username)
@@ -42,7 +49,7 @@ class User(UserMixin, db.Model):
             db.session.commit()
 
     def __repr__(self):
-        return self.username
+        return f'<{self.username}>'
 
 
 @listens_for(User, 'before_update')

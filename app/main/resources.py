@@ -8,7 +8,7 @@ from app.main.serializers import UrlSchema
 from config import Config
 
 
-class UrlResource(Resource):
+class UrlApi(Resource):
     serializer = UrlSchema()
 
     get_parser = reqparse.RequestParser()
@@ -48,10 +48,10 @@ class UrlResource(Resource):
         return {'message': 'Object deleted successfully.'}, HTTPStatus.NO_CONTENT
 
 
-api.add_resource(UrlResource, '/url/')
+api.add_resource(UrlApi, '/url/')
 
 
-class UrlListResource(Resource):
+class UrlListApi(Resource):
     serializer = UrlSchema(many=True)
 
     get_parser = reqparse.RequestParser()
@@ -71,4 +71,4 @@ class UrlListResource(Resource):
         return self.serializer.dump(urls), HTTPStatus.OK
 
 
-api.add_resource(UrlListResource, '/urls/')
+api.add_resource(UrlListApi, '/urls/')

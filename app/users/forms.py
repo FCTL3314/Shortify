@@ -5,7 +5,8 @@ from wtforms import (BooleanField, EmailField, FileField, PasswordField,
 from wtforms.validators import (Email, EqualTo, InputRequired, Length,
                                 ValidationError)
 
-from app.extensions import bcrypt, db
+from app.common.utils import is_object_exists
+from app.extensions import db
 from app.users.models import User
 
 
@@ -49,22 +50,19 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Sign Up', render_kw={'class': 'btn btn--form'})
 
     def validate_username(self, username):
-        is_exists = User.query.filter_by(username=username.data).first()
-        if is_exists:
+        if is_object_exists(User, username=username.data):
             raise ValidationError('A user with this username already exists.')
 
     def validate_email(self, email):
-        is_exists = User.query.filter_by(email=email.data).first()
-        if is_exists:
+        if is_object_exists(User, email=email.data):
             raise ValidationError('A user with this email already exists.')
 
     def create_new_user(self):
         username = self.username.data
         email = self.email.data
         password = self.password.data
-        hashed_password = bcrypt.generate_password_hash(password)
 
-        new_user = User(username=username, email=email, password=hashed_password)  # Type: ignore
+        new_user = User(username=username, email=email, password=password)
 
         db.session.add(new_user)
         db.session.commit()
@@ -89,14 +87,14 @@ class LoginForm(FlaskForm):
     )
     remember_me = BooleanField(
         'remember_me',
-        render_kw={'class': 'form__checkbox'}
+        render_kw={'class': 'form__checkbox'},
     )
     submit = SubmitField('Log In', render_kw={'class': 'btn btn--form'})
 
     def authenticate_user(self):
         user = User.query.filter_by(username=self.username.data).first()
 
-        if user and bcrypt.check_password_hash(user.password, self.password.data):
+        if user and user.check_password(self.password.data):
             login_user(user, remember=self.remember_me.data)
             return True
         return False

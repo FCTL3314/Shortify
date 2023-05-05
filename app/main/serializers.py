@@ -5,4 +5,3 @@ from app.main.models import Url
 class UrlSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Url
-        load_instance = True

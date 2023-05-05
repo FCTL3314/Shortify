@@ -34,4 +34,4 @@ class Url(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        return f'{self.short_url} | {self.visits}'
+        return f'<{self.short_url} | {self.visits}>'
