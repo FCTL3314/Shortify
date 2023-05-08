@@ -6,6 +6,7 @@ were created.
 
 # 🔥 Features
 * **Rest API**
+* **JWT token authentication**
 * **Shortening long URLs**
 * **Registration / Authorization**
 * **User profile**
