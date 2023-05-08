@@ -10,6 +10,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     # Security
     SECRET_KEY = os.environ.get('SECRET_KEY')
+    JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
 
     # Media
     UPLOAD_FOLDER = os.path.join(basedir, 'app/media/')

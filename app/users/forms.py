@@ -5,9 +5,9 @@ from wtforms import (BooleanField, EmailField, FileField, PasswordField,
 from wtforms.validators import (Email, EqualTo, InputRequired, Length,
                                 ValidationError)
 
-from app.common.utils import is_object_exists
 from app.extensions import db
 from app.users.models import User
+from app.utils.validators import is_object_exists
 
 
 class RegistrationForm(FlaskForm):

@@ -3,6 +3,7 @@ from random import choices
 from string import ascii_letters, digits
 
 from app.extensions import db
+from app.utils.validators import is_object_exists
 from config import Config
 
 
@@ -21,12 +22,8 @@ class Url(db.Model):
     def generate_short_url(self):
         characters = digits + ascii_letters
         short_url = ''.join(choices(characters, k=Config.SHORT_URL_LENGTH))
-
-        is_exists = self.query.filter_by(short_url=short_url).first()
-
-        if is_exists:
+        if is_object_exists(self, short_url=short_url):
             return self.generate_short_url()
-
         return short_url
 
     def increase_visits(self):

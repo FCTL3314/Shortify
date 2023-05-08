@@ -19,7 +19,7 @@ def index():
 
         final_url = url_for('main.redirect_to_url', short_url=url.short_url, _external=True)
 
-        flash('Shortened link successfully generated!', 'success')
+        flash('Shortened link successfully created!', 'success')
         return render_template('index.html', form=form, short_url=final_url, user=current_user)
 
     return render_template('index.html', form=form, user=current_user)

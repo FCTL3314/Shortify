@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
-from app.extensions import bcrypt, db
+from app.extensions import db
 from app.main.models import Url
 from app.users.models import User
 
@@ -33,7 +33,6 @@ class TestUser(TestObject):
             'password': self.password,
         }
         defaults.update(kwargs)
-        defaults['password'] = bcrypt.generate_password_hash(defaults['password'])
 
         user = User(**defaults)
         db.session.add(user)

@@ -1,6 +1,7 @@
 from flask import Flask, send_from_directory
 
-from app.extensions import api, bcrypt, db, login_manager, ma, migrate
+from app.extensions import (api, bcrypt, db, jwt_manager, login_manager, ma,
+                            migrate)
 from app.main import bp as main_bp
 from app.users import bp as users_bp
 from config import Config
@@ -18,6 +19,8 @@ def create_app(config_class=Config):
     login_manager.init_app(app)
 
     api.init_app(app)
+    jwt_manager.init_app(app)
+
     ma.init_app(app)
 
     app.register_blueprint(main_bp)

@@ -4,9 +4,9 @@ from flask_login import UserMixin
 from slugify import slugify
 from sqlalchemy.event import listens_for
 
-from app.common.utils import (create_safe_filename, is_extension_allowed,
-                              remove_file, save_media_file)
 from app.extensions import bcrypt, db
+from app.utils.common import create_safe_filename, remove_file, save_media_file
+from app.utils.validators import is_extension_allowed
 from config import Config
 
 
@@ -38,7 +38,7 @@ class User(UserMixin, db.Model):
         filename = image.filename
         if filename and is_extension_allowed(filename):
             safe_filename = create_safe_filename(filename)
-            save_media_file(Config.USERS_MEDIA_DIR, image, safe_filename=safe_filename)
+            save_media_file(directory=Config.USERS_MEDIA_DIR, file=image, safe_filename=safe_filename)
 
             remove_file(
                 os.path.join(Config.UPLOAD_FOLDER, Config.USERS_MEDIA_DIR),

@@ -1,74 +1,37 @@
 from http import HTTPStatus
 
-from flask_restful import Resource, reqparse
+from flask import make_response
+from flask_restful import Resource
 
 from app.extensions import api, db
 from app.main.models import Url
-from app.main.serializers import UrlSchema
-from config import Config
+from app.main.serializers import ShortUrlSchema, UrlSchema
+from app.utils.api import generate_response
+from app.utils.decorators import validate_data
 
 
 class UrlApi(Resource):
-    serializer = UrlSchema()
+    url_serializer = UrlSchema()
+    short_url_serializer = ShortUrlSchema()
 
-    get_parser = reqparse.RequestParser()
-    get_parser.add_argument(
-        'short_url', type=str, location='args', required=True, help='Short url code required.',
-    )
+    @validate_data(short_url_serializer)
+    def get(self, data):
+        short_url = data.get('short_url')
 
-    post_parser = reqparse.RequestParser()
-    post_parser.add_argument(
-        'original_url', type=str, location='form', required=True, help='Original url required.',
-    )
+        url = Url.query.filter_by(short_url=short_url).first_or_404()
+        response, status = generate_response(data=self.url_serializer.dump(url), status_code=HTTPStatus.OK)
+        return make_response(response, status)
 
-    delete_parser = get_parser.copy()
+    @validate_data(url_serializer)
+    def post(self, data):
+        original_url = data.get('original_url')
 
-    def get(self):
-        args = self.get_parser.parse_args()
-
-        url = Url.query.filter_by(short_url=args.short_url).first_or_404()
-        return self.serializer.dump(url), HTTPStatus.OK
-
-    def post(self):
-        args = self.post_parser.parse_args()
-
-        url = Url(original_url=args.original_url)
+        url = Url(original_url=original_url)
         db.session.add(url)
         db.session.commit()
 
-        return self.serializer.dump(url), HTTPStatus.CREATED
-
-    def delete(self):
-        args = self.delete_parser.parse_args()
-
-        url = Url.query.filter_by(short_url=args.short_url).first_or_404()
-        db.session.delete(url)
-        db.session.commit()
-
-        return {'message': 'Object deleted successfully.'}, HTTPStatus.NO_CONTENT
+        response, status = generate_response(data=self.short_url_serializer.dump(url), status_code=HTTPStatus.CREATED)
+        return make_response(response, status)
 
 
 api.add_resource(UrlApi, '/url/')
-
-
-class UrlListApi(Resource):
-    serializer = UrlSchema(many=True)
-
-    get_parser = reqparse.RequestParser()
-    get_parser.add_argument(
-        'page', type=int, location='args', required=False, default=1, help='Page number required.',
-    )
-
-    def get(self):
-        args = self.get_parser.parse_args()
-
-        urls = Url.query.order_by(Url.created_date.desc()).paginate(
-            page=args.page,
-            per_page=Config.URL_PER_PAGE,
-            error_out=False
-        )
-
-        return self.serializer.dump(urls), HTTPStatus.OK
-
-
-api.add_resource(UrlListApi, '/urls/')

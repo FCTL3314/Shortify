@@ -1,11 +1,11 @@
 from flask import abort, flash, redirect, render_template, url_for
 from flask_login import current_user, login_required, logout_user
 
-from app.common.decorators import logout_required
 from app.extensions import db, login_manager
 from app.users import bp
 from app.users.forms import LoginForm, ProfileForm, RegistrationForm
 from app.users.models import User
+from app.utils.decorators import logout_required
 from config import Config
 
 
