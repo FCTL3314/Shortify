@@ -1,3 +1,5 @@
+<h1 align="center">Shortify</h1>
+
 # 📃 About
 
 **Shortify** is a web application built with the **Flask** framework and **Flask-RESTful**, this application is supposed

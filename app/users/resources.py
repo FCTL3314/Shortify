@@ -4,7 +4,7 @@ from flask import make_response
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from flask_restful import Resource
 
-from app.extensions import api, db
+from app.extensions import db
 from app.users.models import User
 from app.users.serializers import (UserLoginSchema, UserRegistrationSchema,
                                    UserSchema, UserUpdateSchema)
@@ -64,9 +64,6 @@ class UserApi(Resource):
         return make_response(response, status)
 
 
-api.add_resource(UserApi, '/users/me/')
-
-
 class LoginApi(Resource):
     serializer = UserLoginSchema()
 
@@ -76,9 +73,6 @@ class LoginApi(Resource):
         return make_response(response, status)
 
 
-api.add_resource(LoginApi, '/users/login/')
-
-
 class RegistrationApi(Resource):
     serializer = UserRegistrationSchema()
 
@@ -86,6 +80,3 @@ class RegistrationApi(Resource):
     def post(self, data):
         response, status = register_user(data=data)
         return make_response(response, status)
-
-
-api.add_resource(RegistrationApi, '/users/registration/')

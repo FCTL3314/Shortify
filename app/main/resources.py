@@ -3,7 +3,7 @@ from http import HTTPStatus
 from flask import make_response
 from flask_restful import Resource
 
-from app.extensions import api, db
+from app.extensions import db
 from app.main.models import Url
 from app.main.serializers import ShortUrlSchema, UrlSchema
 from app.utils.api import generate_response
@@ -32,6 +32,3 @@ class UrlApi(Resource):
 
         response, status = generate_response(data=self.short_url_serializer.dump(url), status_code=HTTPStatus.CREATED)
         return make_response(response, status)
-
-
-api.add_resource(UrlApi, '/url/')
