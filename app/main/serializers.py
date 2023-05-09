@@ -10,4 +10,3 @@ class UrlSchema(ma.Schema):
 
 class ShortUrlSchema(ma.Schema):
     short_url = fields.Str(required=True, validate=validate.Length(max=Config.SHORT_URL_LENGTH))
-

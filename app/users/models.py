@@ -22,17 +22,17 @@ class User(UserMixin, db.Model):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.hash_password()
+        self._hash_password()
         self.create_slug()
 
-    def hash_password(self):
+    def _hash_password(self):
         self.password = bcrypt.generate_password_hash(self.password)
-
-    def check_password(self, password):
-        return bcrypt.check_password_hash(self.password, password)
 
     def create_slug(self):
         self.slug = slugify(self.username)
+
+    def check_password(self, password):
+        return bcrypt.check_password_hash(self.password, password)
 
     def update_image(self, image):
         filename = image.filename
