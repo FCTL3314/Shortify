@@ -1,5 +1,3 @@
-<h1 align="center">Shortify</h1>
-
 # 📃 About
 
 **Shortify** is a web application built with the **Flask** framework and **Flask-RESTful**, this application is supposed
@@ -27,3 +25,17 @@ were created.
    * `flask db upgrade`
 5. Run development server:
     * `flask run`
+# 🌄 Demonstration
+
+### Main page
+
+![firefox_LfbeMlqWyw](https://user-images.githubusercontent.com/97694131/237058842-65483b9f-e3e5-4c43-8536-62687413d5db.png)
+
+### Profile page
+
+![firefox_ixGQ1zaEUP](https://user-images.githubusercontent.com/97694131/237059064-452b02a5-f41f-4959-9304-881b82722077.png)
+
+### Authentication pages
+
+![firefox_BWGNxRZ6FB](https://user-images.githubusercontent.com/97694131/237059233-90edc71d-0b4b-421d-89cb-25cbbd973d70.png)
+![firefox_rsSgBE8baZ](https://user-images.githubusercontent.com/97694131/237059240-5b445769-ef81-4ed2-8990-47a960bd897c.png)
