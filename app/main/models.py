@@ -19,6 +19,13 @@ class Url(db.Model):
         super().__init__(**kwargs)
         self.short_url = self.generate_short_url()
 
+    @classmethod
+    def create(cls, original_url):
+        url = cls(original_url=original_url)
+        db.session.add(url)
+        db.session.commit()
+        return url
+
     def generate_short_url(self):
         characters = digits + ascii_letters
         short_url = ''.join(choices(characters, k=Config.SHORT_URL_LENGTH))

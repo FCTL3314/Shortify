@@ -27,7 +27,6 @@ def register_user(data):
         return generate_response(message=errors, status_code=HTTPStatus.BAD_REQUEST)
 
     new_user = User(username=username, email=email, password=password)
-
     db.session.add(new_user)
     db.session.commit()
 
@@ -41,8 +40,10 @@ def login_user(data):
     user = User.query.filter_by(username=username).first()
 
     if user and user.check_password(password):
-        response = {'access_token': create_access_token(identity=user.id)}
-        return generate_response(data=response, status_code=HTTPStatus.CREATED)
+        return generate_response(
+            data={'access_token': create_access_token(identity=user.id)},
+            status_code=HTTPStatus.CREATED,
+        )
 
     return generate_response(
         message='Could not find a user with the same username and password.',

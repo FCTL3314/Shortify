@@ -1,7 +1,6 @@
 from flask import flash, redirect, render_template, url_for
 from flask_login import current_user
 
-from app.extensions import db
 from app.main import bp
 from app.main.forms import ShortenUrlForm
 from app.main.models import Url
@@ -11,11 +10,7 @@ from app.main.models import Url
 def index():
     form = ShortenUrlForm()
     if form.validate_on_submit():
-        original_url = form.original_url.data
-
-        url = Url(original_url=original_url)
-        db.session.add(url)
-        db.session.commit()
+        url = Url.create(original_url=form.original_url.data)
 
         final_url = url_for('main.redirect_to_url', short_url=url.short_url, _external=True)
 

@@ -10,14 +10,10 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
         exclude = ('password',)
 
 
-class UserUpdateSchema(ma.SQLAlchemyAutoSchema):
+class UserUpdateSchema(ma.Schema):
     username = fields.Str(required=False, validate=validate.Length(min=4, max=32))
     first_name = fields.Str(required=False, validate=validate.Length(max=64))
     last_name = fields.Str(required=False, validate=validate.Length(max=64))
-
-    class Meta:
-        model = User
-        exclude = ('password', 'email', 'slug')
 
 
 class UserLoginSchema(ma.SQLAlchemyAutoSchema):

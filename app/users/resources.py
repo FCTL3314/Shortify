@@ -15,18 +15,18 @@ from app.utils.validators import is_object_exists
 
 
 class UserApi(Resource):
-    user_serializer = UserSchema()
-    user_update_serializer = UserUpdateSchema()
+    get_serializer = UserSchema()
+    patch_serializer = UserUpdateSchema()
 
     @jwt_required()
     def get(self):
         user_id = get_jwt_identity()
         user = User.query.get(user_id)
-        response, status = generate_response(data=self.user_serializer.dump(user), status_code=HTTPStatus.OK)
+        response, status = generate_response(data=self.get_serializer.dump(user), status_code=HTTPStatus.OK)
         return make_response(response, status)
 
     @jwt_required()
-    @validate_data(user_update_serializer)
+    @validate_data(patch_serializer)
     def patch(self, data):
         user_id = get_jwt_identity()
         user = User.query.get(user_id)
@@ -46,7 +46,7 @@ class UserApi(Resource):
 
         db.session.commit()
 
-        response, status = generate_response(data=self.user_update_serializer.dump(user), status_code=HTTPStatus.OK)
+        response, status = generate_response(data=self.patch_serializer.dump(user), status_code=HTTPStatus.OK)
         return make_response(response, status)
 
     @jwt_required()
